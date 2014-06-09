@@ -1,6 +1,29 @@
 ---
 ---
 
+.user_bar {
+  width: 100%;
+  text-align: right;
+
+  .logout {
+    display: none;
+  }
+
+  .login, .logout {
+    cursor: pointer;
+    &:hover { text-decoration: underline }
+  }
+
+  .email {
+    display: none;
+    margin-right: 15px;
+  }
+}
+
+.current_views {
+  display: none;
+}
+
 .left, .right {
   float: left;
 }
