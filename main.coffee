@@ -14,7 +14,8 @@ $ ->
       user_data = snapshot.val()
       if user_data.name != current_name
         $('.user_list').append(
-          $( "<a></a>", {text: user_data.name, class: "user", href: "##{user_data.uid}"})
+          $( "<div></div>", {text: user_data.name, class: user_data.uid})
+            .click((e) -> console.log $(this).attr('class'))
         )
     )
 
@@ -63,10 +64,3 @@ $ ->
       msg = $( "<div></div>", {text: text})
       $('.thread').append(msg)
       $('.input').val('')
-
-  #$('.user').click((e) -> console.log 'hi')
-  #  #console.log 'i'
-  #  console.log $(@).attr('class')
-  #  e.preventDefault()
-  #  false
-  #)
