@@ -3,6 +3,8 @@
 
 $ ->
   FB = new Firebase('https://jollytime.firebaseIO.com')
+  loggedin_user = null
+
   conversation_template = $('#conversation_template').html()
   Mustache.parse(conversation_template)
   
@@ -15,9 +17,22 @@ $ ->
       if user_data.name != current_name
         $('.user_list').append(
           $( "<div></div>", {text: user_data.name, class: user_data.uid})
-            .click((e) -> console.log $(this).attr('class'))
+            .click((e) -> 
+              console.log $(this).attr('class')
+              console.log loggedin_user.uid
+              cid = [loggedin_user.uid, $(this).attr('class')].sort().join('|')
+              console.log cid
+
+            )
         )
     )
+
+  open_conversation = (conversation_id) ->
+    FB.child('conversations').child(conversation_id).on('child_added', (snapshot) ->
+      msg = snapshot.val()
+      console.log msg
+    )
+
 
   auth = new FirebaseSimpleLogin(FB, (error, user) ->
     if error
@@ -35,6 +50,8 @@ $ ->
     $('.login').hide()
     $('.logout').show()
     $('.current_views').show()
+
+    loggedin_user = user
 
     current_user = FB.child('users').child(user.uid)
     current_user.on('value', (snapshot) -> 
