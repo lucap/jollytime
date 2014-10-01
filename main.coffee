@@ -11,12 +11,12 @@ $ ->
   #var rendered = Mustache.render(template, {name: "Luke"});
   #$('#target').html(rendered);
 
-  bind_user_list = (current_name) ->
+  bind_user_list = (current_user_data) ->
     FB.child('users').on('child_added', (snapshot) ->
-      user_data = snapshot.val()
-      if user_data.name != current_name
+      new_user_data = snapshot.val()
+      if new_user_data.uid != current_user_data.uid
         $('.user_list').append(
-          $( "<div></div>", {text: user_data.name, class: user_data.uid})
+          $( "<div></div>", {text: new_user_data.name, class: new_user_data.uid})
             .click((e) -> 
               console.log $(this).attr('class')
               console.log loggedin_user.uid
@@ -32,7 +32,6 @@ $ ->
       msg = snapshot.val()
       console.log msg
     )
-
 
   auth = new FirebaseSimpleLogin(FB, (error, user) ->
     if error
@@ -55,12 +54,13 @@ $ ->
 
     current_user = FB.child('users').child(user.uid)
     current_user.on('value', (snapshot) -> 
-      if not snapshot.val()
-        user_data = 
-          name: user.displayName
-          uid: user.uid # should be a hash of the name
-        current_user.set(user_data)
-      bind_user_list(user.displayName)
+      current_user_data = snapshot.val() or {}
+      if _.isEmpty(current_user_data)
+        # first time user
+        current_user_data.name = user.displayName
+        current_user_data.uid = user.uid # could be a hash of the name
+        current_user.set(current_user_data)
+      bind_user_list(current_user_data)
     )
 
   logged_out = ->
@@ -68,6 +68,7 @@ $ ->
     $('.login').show()
     $('.logout').hide()
     $('.current_views').hide()
+    $('.name').empty().hide()
 
   $('.login').click ->
     auth.login('google')
