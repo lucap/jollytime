@@ -49,6 +49,7 @@ $ ->
     $('.login').hide()
     $('.logout').show()
     $('.current_views').show()
+    $('.user_list').show()
 
     loggedin_user = user
 
@@ -69,6 +70,7 @@ $ ->
     $('.logout').hide()
     $('.current_views').hide()
     $('.name').empty().hide()
+    $('.user_list').empty().hide()
 
   $('.login').click ->
     auth.login('google')
