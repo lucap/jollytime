@@ -5,19 +5,18 @@
   <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'></script>
   <script type='text/javascript' src='lib/mustache.js'></script>
   <script type='text/javascript' src='lib/underscore-min.js'></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
   <script type="text/javascript" charset="utf-8" src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <script id="conversation_template" type="x-tmpl-mustache">
     <div class='right'>
-      <div> class="author">{{author}}</div>
       <div class="messages"></div>
       <textarea class='input' rows="10" cols="30"></textarea>
       <div><button class='send' type="button">send</button></div>
     </div>
     <div class='left'>
-      <div> class="author">{{author}}</div>
       <div class="messages"></div>
     </div>
   </script>
@@ -27,16 +26,6 @@
     <span class='logout'>Logout</span>
   </div>
   <div class='user_list'></div>
-  <div class='current_views'>
-    <div class='right'>
-      <div class="thread"></div>
-      <textarea class='input' rows="10" cols="30"></textarea>
-      <div><button class='send' type="button">send</button></div>
-    </div>
-    <div class='left'></div>
-      <div>Some example conversation</div>
-      <div>Another example conversation</div>
-      <div>Some more longer text</div>
-  </div>
+  <div class='current_views'></div>
 </body>
 </html>
