@@ -28,11 +28,24 @@ $ ->
       $(".current_views").append("<div class='#{cid}'></div>")
       rendered = Mustache.render(conversation_template)
       $(".current_views .#{cid}").html(rendered)
+    
+    $(".current_views .#{cid}")
+      .show()
+      .siblings().hide()
 
-    #FB.child('conversations').child(cid).on('child_added', (snapshot) ->
-    #  msg = snapshot.val()
-    #  console.log msg
-    #)
+    $(".current_views .#{cid} .send").click ->
+      text = $('.input').val()
+      if text?
+        FB.child('conversations').child(cid).push({msg: text})
+        #  msg = $( "<div></div>", {text: text})
+        #  $('.thread').append(msg)
+        #  $('.input').val('')
+
+    FB.child('conversations').child(cid).on('child_added', (snapshot) ->
+      msg = snapshot.val()
+      console.log msg
+    )
+
 
   auth = new FirebaseSimpleLogin(FB, (error, user) ->
     if error
@@ -77,9 +90,3 @@ $ ->
   $('.logout').click ->
     auth.logout()
 
-  $('.send').click ->
-    text = $('.input').val()
-    if text?
-      msg = $( "<div></div>", {text: text})
-      $('.thread').append(msg)
-      $('.input').val('')
