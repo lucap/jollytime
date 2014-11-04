@@ -19,6 +19,9 @@ $ ->
             .click((e) -> 
               cid = [current_user_data.uid, $(this).attr('class')].sort().join('-')
               bind_conversation(cid)
+              $(this)
+                .addClass('highlight')
+                .siblings().removeClass('highlight')
             )
         )
     )
@@ -43,9 +46,8 @@ $ ->
 
     FB.child('conversations').child(cid).on('child_added', (snapshot) ->
       msg = snapshot.val()
-      console.log msg
+      console.log cid, msg
     )
-
 
   auth = new FirebaseSimpleLogin(FB, (error, user) ->
     if error
