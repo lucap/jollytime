@@ -18,7 +18,7 @@ $ ->
           $( "<div></div>", {text: new_user_data.name, class: new_user_data.uid})
             .click((e) -> 
               cid = [current_user_data.uid, $(this).attr('class')].sort().join('-')
-              bind_conversation(cid)
+              bind_conversation(cid, current_user_data)
               $(this)
                 .addClass('highlight')
                 .siblings().removeClass('highlight')
@@ -26,7 +26,7 @@ $ ->
         )
     )
 
-  bind_conversation = (cid) ->
+  bind_conversation = (cid, current_user_data) ->
     if not $(".current_views .#{cid}").length
       $(".current_views").append("<div class='#{cid}'></div>")
       rendered = Mustache.render(conversation_template)
@@ -38,15 +38,17 @@ $ ->
 
     $(".current_views .#{cid} .send").click ->
       text = $('.input').val()
-      if text?
-        FB.child('conversations').child(cid).push({msg: text})
-        #  msg = $( "<div></div>", {text: text})
-        #  $('.thread').append(msg)
-        #  $('.input').val('')
+      if text? and text != ''
+        FB.child('conversations')
+          .child(cid)
+          .push({content: text, uid: current_user_data.uid})
+        $('.input').val('')
 
     FB.child('conversations').child(cid).on('child_added', (snapshot) ->
       msg = snapshot.val()
       console.log cid, msg
+      side = if msg.uid == current_user_data.uid then 'left' else 'right'
+      $(".#{side} .messages").append($( "<div></div>", {text: msg.content}))
     )
 
   auth = new FirebaseSimpleLogin(FB, (error, user) ->
