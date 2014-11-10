@@ -6,9 +6,6 @@ $ ->
 
   conversation_template = $('#conversation_template').html()
   Mustache.parse(conversation_template)
-  
-  #var rendered = Mustache.render(template, {name: "Luke"});
-  #$('#target').html(rendered);
 
   bind_user_list = (current_user_data) ->
     FB.child('users').on('child_added', (snapshot) ->
@@ -47,7 +44,7 @@ $ ->
     FB.child('conversations').child(cid).on('child_added', (snapshot) ->
       msg = snapshot.val()
       console.log cid, msg
-      side = if msg.uid == current_user_data.uid then 'left' else 'right'
+      side = if msg.uid == current_user_data.uid then 'right' else 'left'
       $(".#{side} .messages").append($( "<div></div>", {text: msg.content}))
     )
 
