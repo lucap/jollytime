@@ -13,13 +13,13 @@ app.controller "AuthCtrl", [ "$scope", "Auth"
   ($scope, Auth) ->
     $scope.logout = ->
       Auth.$unauth()
-      $scope.user = Auth.$getAuth()
+      $scope.user = null
       
     $scope.login = ->
       Auth.$authWithOAuthPopup('google')
-        .then((authData) -> $scope.user = Auth.$getAuth())
+        .then((authData) -> $scope.user = authData)
         .catch((error) -> console.log('Authentication failed:', error))
-        
+
 ]
 
 
