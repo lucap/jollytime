@@ -15,7 +15,18 @@ $ ->
           $( "<div></div>", {text: new_user_data.name, class: new_user_data.uid})
             .click((e) -> 
               cid = [current_user_data.uid, $(this).attr('class')].sort().join('-')
-              bind_conversation(cid, current_user_data)
+              
+              if not $(".current_views .#{cid}").length
+                $(".current_views").append("<div class='#{cid}'></div>")
+                rendered = Mustache.render(conversation_template)
+                $(".current_views .#{cid}").html(rendered)
+                
+                bind_conversation(cid, current_user_data)
+
+              $(".current_views .#{cid}")
+                .show()
+                .siblings().hide()
+
               $(this)
                 .addClass('highlight')
                 .siblings().removeClass('highlight')
@@ -24,15 +35,6 @@ $ ->
     )
 
   bind_conversation = (cid, current_user_data) ->
-    if not $(".current_views .#{cid}").length
-      $(".current_views").append("<div class='#{cid}'></div>")
-      rendered = Mustache.render(conversation_template)
-      $(".current_views .#{cid}").html(rendered)
-    
-    $(".current_views .#{cid}")
-      .show()
-      .siblings().hide()
-
     $(".current_views .#{cid} .send").click ->
       text = $('.input').val()
       if text? and text != ''
