@@ -1,31 +1,24 @@
-<html>
+<html ng-app="jollyApp">
 <head>
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
-  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'></script>
-  <script type='text/javascript' src='lib/mustache.js'></script>
-  <script type='text/javascript' src='lib/underscore-min.js'></script>
-  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
-  <script type="text/javascript" charset="utf-8" src="main.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
+  <script src="//cdn.firebase.com/js/client/2.0.5/firebase.js"></script>
+  <script src="//cdn.firebase.com/libs/angularfire/0.9.0/angularfire.min.js"></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
+  <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
+  <script src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <script id="conversation_template" type="x-tmpl-mustache">
-    <div class='left'>
-      <div class="messages"></div>
+  <div ng-controller="AuthCtrl" class='user_bar'>
+    <div ng-show="user">
+      <p>Hello, {{ user.google.displayName }}</p>
+      <button ng-click="logout()">Logout</button>
     </div>
-    <div class='right'>
-      <div class="messages"></div>
-      <textarea class='input' rows="10" cols="30"></textarea>
-      <div><button class='send' type="button">send</button></div>
+    <div ng-hide="user">
+      <p>Welcome, please log in.</p>
+      <button ng-click="login()">Login</button>
     </div>
-  </script>
-  <div class='user_bar'>
-    <span class='login'>Login with Google</span>
-    <span class='name'></span>
-    <span class='logout'>Logout</span>
   </div>
-  <div class='user_list'></div>
-  <div class='current_views'></div>
 </body>
 </html>
