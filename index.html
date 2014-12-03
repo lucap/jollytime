@@ -20,5 +20,13 @@
       <button ng-click="login()">Login</button>
     </div>
   </div>
+  <div ng-controller="FriendListCtrl">
+    <div>{{user()}}</div>
+    <ul>
+      <li ng-repeat="friend in friend_list">
+        <span>{{friend.name}}</span>
+      </li>
+    </ul>
+  </div>
 </body>
 </html>
